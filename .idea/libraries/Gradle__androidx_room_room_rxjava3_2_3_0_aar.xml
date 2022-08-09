@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="Gradle: androidx.room:room-rxjava3:2.3.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Android/Sdk/caches/transforms-3/928e56341fbbe5b126f05e3005fc25ec/transformed/jetified-room-rxjava3-2.3.0/res" />
+      <root url="jar://$USER_HOME$/Android/Sdk/caches/transforms-3/928e56341fbbe5b126f05e3005fc25ec/transformed/jetified-room-rxjava3-2.3.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/Android/Sdk/caches/transforms-3/928e56341fbbe5b126f05e3005fc25ec/transformed/jetified-room-rxjava3-2.3.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/37dc570adb7f3ee95d563f059595c904/transformed/jetified-room-rxjava3-2.3.0/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/37dc570adb7f3ee95d563f059595c904/transformed/jetified-room-rxjava3-2.3.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/37dc570adb7f3ee95d563f059595c904/transformed/jetified-room-rxjava3-2.3.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Android/Sdk/caches/modules-2/files-2.1/androidx.room/room-rxjava3/2.3.0/4dff1b0de927d1da1fcb921c12909b171e02a3dd/room-rxjava3-2.3.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.room/room-rxjava3/2.3.0/4dff1b0de927d1da1fcb921c12909b171e02a3dd/room-rxjava3-2.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

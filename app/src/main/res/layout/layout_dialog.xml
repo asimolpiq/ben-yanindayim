@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/uyari"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lütfen açılışta kullanacağınız en fazla 8 haneli bir pin belirleyin.\n(Örneğin:12345678)"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="10dp"
+        ></TextView>
+    <EditText
+        android:background="@drawable/bg_round"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Pin Giriniz:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/passEditText"
+        android:inputType="number"
+        android:maxLength="8"
+        android:layout_below="@+id/uyari"
+        ></EditText>
+</RelativeLayout>

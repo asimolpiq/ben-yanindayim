@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Info_Activity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_round"
+        android:gravity="top"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/resim1"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/mylogo" />
+
+        <TextView
+            android:id="@+id/yazi1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/resim1"
+
+            android:padding="10dp"
+            android:text="Adım Alpay Güroğlu. 22 yaşında genç bir girişimciyim.
+Bu uygulamayı geliştirmeye başlamadan önce kendime 'Ülkemizde sayısı gittikçe artan
+kadın cinayetlerine bir çözüm yolu geliştirebilir miyim?' diye sordum. Ardından hali hazırda
+bulunan uygulamaları inceleyip çok daha iyisini geliştirebileceğimi fark ettim. Umarım uygulamam sayesinde
+sizlerin güvenliğine bir nebze de olsa katkım olmuş olur.
+Bu süreçte yanımda olan ve desteğini hiç eksik etmeyen aileme sonsuz kez teşekkür ederim."
+            android:textAlignment="textStart"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/yazi1"
+            android:layout_marginTop="20dp"
+            >
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="20dp"
+                android:id="@+id/hrline"/>
+
+            <TextView
+                android:id="@+id/yazi2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hrline"
+                android:layout_marginTop="20dp"
+                android:text="Bu uygulamayı tüm dünya insanlarına ithaf ediyorum."
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="italic" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yazi2"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="20dp"
+                android:text="-Alpay Güroğlu"
+                android:textAlignment="textEnd"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

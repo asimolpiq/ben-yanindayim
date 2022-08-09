@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/addPeople"
+    android:title="Kişi Ekle"
+    ></item>
+    <item android:id="@+id/passChange"
+        android:title="Şifre Değiştir"
+        ></item>
+    <item android:id="@+id/report"
+        android:title="Bildir"
+        ></item>
+    <item android:id="@+id/info"
+        android:title="Hakkımızda"
+        ></item>
+</menu>

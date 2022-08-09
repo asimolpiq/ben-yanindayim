@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <drawable name="bgcolor2">#000000</drawable>
+    <drawable name="bgcolor">#1CE4BC</drawable>
+    <drawable name="background_btn1">#FFFFFF</drawable>
+    <drawable name="background_btn2">#0F3B5E</drawable>
+    <drawable name="background_btn3">#FF9800</drawable>
+    <drawable name="background_btn4">#857F77</drawable>
+    <drawable name="ic_backspace_black_24dp">#0F3B5E</drawable>
+</resources>
