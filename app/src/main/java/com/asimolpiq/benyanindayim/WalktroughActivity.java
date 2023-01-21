@@ -34,12 +34,12 @@ public class WalktroughActivity extends AppCompatActivity {
         binding = ActivityWalktroughBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        sharedPreferences = this.getSharedPreferences("com.asimolpiq.benyanindayim", Context.MODE_PRIVATE);
-        isFirstShow = sharedPreferences.getBoolean("first_show",false);
+        sharedPreferences = this.getSharedPreferences("com.asimolpiq.benyanindayim", Context.MODE_PRIVATE); // add a controll
+        isFirstShow = sharedPreferences.getBoolean("first_show",false); //it was dont show video
         if (!isFirstShow) {
-            videoplay();
+            videoplay(); // show video
         } else {
-            goHome();
+            goHome(); // directly go home page
         }
 
 
@@ -57,7 +57,7 @@ public class WalktroughActivity extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
                 sharedPreferences.edit().putBoolean("first_show",true).apply();
-               goHome();
+                goHome();
             }
         });
         binding.walktroughVideoView.start();
@@ -66,8 +66,8 @@ public class WalktroughActivity extends AppCompatActivity {
 
     public void goHome(){
         Intent intent = new Intent(WalktroughActivity.this,Calculator_Activity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 }
 

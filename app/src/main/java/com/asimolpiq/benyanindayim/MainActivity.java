@@ -3,6 +3,7 @@ package com.asimolpiq.benyanindayim;
 import android.Manifest;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -52,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private boolean serviceon = false;
     SharedPreferences sharedPreferences;
-    ActivityResultLauncher<String> requestPermissionLauncher;
-    ActivityResultLauncher<String> smsRequestPermissionLauncher;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     Database db;
     PersonDAO personDAO;
     List<Person> activesList = new ArrayList<Person>();
+
+    private  String[] PERMISSIONS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +68,37 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        PERMISSIONS = new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.SEND_SMS
+        };
         db = Room.databaseBuilder(getApplicationContext(),Database.class,"Person").build();
         personDAO = db.personDAO();
         compositeDisposable.add(personDAO.getAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(MainActivity.this::handleresponsse));
+        if(ActivityCompat.checkSelfPermission(MainActivity.this,  Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
+            {
+                new AlertDialog.Builder(this)
+                        .setTitle("İzinler")
+                        .setMessage("Değerli kullanıcımız güvenliğinizi sağlayabilmek amacıyla Arkaplanda konum ve Sms gönderme izinlerini aktif etmeniz gerekmektedir.")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                      if (!hasPermissions(MainActivity.this,PERMISSIONS)){
+                                        ActivityCompat.requestPermissions(MainActivity.this,PERMISSIONS,1);
+                                      }
+
+                                    }
+                                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+
+            }
+        }
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = binding.fab;
-        registerLauncher();
+
         LocationManager lm = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             this.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -87,54 +110,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(!serviceon) {
 
-                    if(ActivityCompat.checkSelfPermission(MainActivity.this,  Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED&& ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ){
-                        if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)){
-
-                            Snackbar.make(binding.getRoot(),"Konumunuzu bulmak için izin vermeniz gerekmektedir.",Snackbar.LENGTH_INDEFINITE).setAction("İzin Ver", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                                }
-                            }).show();
-                        }
-                        else{
-                            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
-                        }
+                    if (!hasPermissions(MainActivity.this,PERMISSIONS)){
+                        ActivityCompat.requestPermissions(MainActivity.this,PERMISSIONS,1);
                     }
-                    else{
-                        //permission all ready granted
-
-                    }
-
-
-                    if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED){
-                        if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.SEND_SMS)){
-
-                            Snackbar.make(binding.getRoot(),"Konumunuzun güvendiğiniz kişilere gönderilebilmesi için izin vermelisiniz.",Snackbar.LENGTH_INDEFINITE).setAction("İzin Ver", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    requestPermissionLauncher.launch(Manifest.permission.SEND_SMS);
-                                }
-                            }).show();
-                        }
-                        else{
-                            requestPermissionLauncher.launch(Manifest.permission.SEND_SMS);
-                        }
-                    }
-                    else{
-                        //permission all ready granted
                         Intent intent = new Intent(getApplicationContext(),PlayerService.class);
                         intent.putExtra("serviceList", (Serializable) activesList);
                         startService(intent);
                         Toast.makeText(getApplicationContext(), "Koruma Başlatıldı!", Toast.LENGTH_LONG).show();
                         serviceon=true;
                     }
-
-                }
                 else {
-                    stopService(new Intent(getApplicationContext(),PlayerService.class));
+                    stopService(new Intent(getApplicationContext(), PlayerService.class));
                     Toast.makeText(getApplicationContext(), "Koruma Durduruldu!!", Toast.LENGTH_LONG).show();
-                    serviceon=false;
+                    serviceon = false;
                 }
             }
         });
@@ -165,7 +153,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private  boolean hasPermissions(Context context, String... PERMISSIONS){
+        if(context != null && PERMISSIONS !=null) {
+            for (String permission : PERMISSIONS){
+                if (ActivityCompat.checkSelfPermission(context,permission)!=PackageManager.PERMISSION_GRANTED){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        startService(new Intent(getApplicationContext(), PlayerService.class));
+        if (requestCode ==1){
+            if (grantResults[1]!=PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getApplicationContext(), "İzin Vermelisiniz ", Toast.LENGTH_LONG).show();
+
+            }
+        }
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -205,37 +215,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void registerLauncher(){
-        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) {
-                if (result){
-                    if(ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED&&ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.ACCESS_BACKGROUND_LOCATION)==PackageManager.PERMISSION_GRANTED) {
 
-                    }
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "İzin Vermelisiniz!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        smsRequestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) {
-                if (result){
-                    if(ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.SEND_SMS)==PackageManager.PERMISSION_GRANTED) {
-                        startService(new Intent(getApplicationContext(), PlayerService.class));
-
-                        Toast.makeText(getApplicationContext(), "Koruma Başlatıldı!", Toast.LENGTH_LONG).show();
-                        serviceon=true;
-                    }
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "İzin Vermelisiniz!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
 
 
 

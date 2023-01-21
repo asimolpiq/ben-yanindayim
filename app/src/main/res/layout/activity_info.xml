@@ -39,7 +39,7 @@ bulunan uygulamaları inceleyip çok daha iyisini geliştirebileceğimi fark ett
 sizlerin güvenliğine bir nebze de olsa katkım olmuş olur.
 Bu süreçte yanımda olan ve desteğini hiç eksik etmeyen aileme sonsuz kez teşekkür ederim."
             android:textAlignment="textStart"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -68,12 +68,21 @@ Bu süreçte yanımda olan ve desteğini hiç eksik etmeyen aileme sonsuz kez te
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/yazi2"
+                android:id="@+id/yazi3"
                 android:layout_marginTop="3dp"
                 android:layout_marginRight="20dp"
                 android:text="-Alpay Güroğlu"
                 android:textAlignment="textEnd"
                 android:textSize="14sp"
                 android:textStyle="italic" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_below="@+id/yazi3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Gizlilik Sözleşmesi" />
         </RelativeLayout>
 
 

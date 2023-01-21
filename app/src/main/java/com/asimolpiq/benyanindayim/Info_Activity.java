@@ -23,6 +23,12 @@ public class Info_Activity extends AppCompatActivity {
                 goToMyWebSite("https://alpayguroglu.info");
             }
         });
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToMyWebSite("https://alpayguroglu.info/mobil-uygulama-gizlilik-politikasi/");
+            }
+        });
     }
     public void goToMyWebSite(String url){
         Uri uri= Uri.parse(url);
